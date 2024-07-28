@@ -4,6 +4,8 @@
 
 ## Features
 
+<img src="https://github.com/MURABIT-PASHA/Images/blob/main/mlp_example.gif" alt="Flutter App Demo" width="230" height="400">
+
 - Define neurons (`Neuron` class) with various attributes such as value, name, and connections.
 - Create layers (`Layer` class) with different types (input, hidden, output) and manage their connectivity.
 - Establish connections between neurons using edges (`Edge` class) with optional weights.
@@ -15,7 +17,7 @@ To start using the `mlp` package, add it to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  mlp: ^1.0.0
+  mlp: ^0.0.1
 ```
 Then, run `pub get` to install the package.
 
