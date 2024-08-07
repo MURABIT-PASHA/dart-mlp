@@ -2,6 +2,7 @@ library mlp;
 
 import 'dart:math';
 
+import 'package:mlp/arff_models/arff_model_creation_parameter.dart';
 import 'package:mlp/mlp_models/model.dart';
 
 import 'arff_models/arff.dart';
@@ -148,13 +149,13 @@ class MultilayerPerceptron {
   }
   
   /// This function creates a model from given [ARFF] file and class name
-  Model createModelFromArff({required ARFF arff, required String className}) {
+  Model createModelFromArff(ARFFModelCreationParameter params) {
     List<Layer> mlp = connectLayers(layers: createLayers());
     List<List<ARFFData>> data =
-    arff.data.map((list) => List<ARFFData>.from(list)).toList();
+    params.arff.data.map((list) => List<ARFFData>.from(list)).toList();
     int dataLineIndex = 0;
     int classIndex =
-    arff.attributesList.indexWhere((attrs) => attrs.name == className);
+    params.arff.attributesList.indexWhere((attrs) => attrs.name == params.className);
     for (List<ARFFData> dt in data) {
       dt.removeAt(classIndex);
     }
@@ -163,14 +164,14 @@ class MultilayerPerceptron {
     _normalizationReferenceValues(arffData: data);
 
     List<ARFFAttributes> attrs = [];
-    attrs.addAll(arff.attributesList);
+    attrs.addAll(params.arff.attributesList);
     attrs.removeAt(classIndex);
 
     for (int i = 0; i < epoch; i++) {
-      data = arff.data.map((list) => List<ARFFData>.from(list)).toList();
+      data = params.arff.data.map((list) => List<ARFFData>.from(list)).toList();
       dataLineIndex = 0;
       classIndex =
-          arff.attributesList.indexWhere((attrs) => attrs.name == className);
+          params.arff.attributesList.indexWhere((attrs) => attrs.name == params.className);
       for (List<ARFFData> dt in data) {
         dt.removeAt(classIndex);
       }
@@ -187,10 +188,10 @@ class MultilayerPerceptron {
         }
 
         Map<String, double> outputNomAttribValue = {};
-        if (arff.attributesList[classIndex].type == 'nominal') {
-          if (arff.data[dataLineIndex][classIndex].name ==
-              arff.attributesList[classIndex].name) {
-            outputNomAttribValue[arff.data[dataLineIndex][classIndex].value] =
+        if (params.arff.attributesList[classIndex].type == 'nominal') {
+          if (params.arff.data[dataLineIndex][classIndex].name ==
+              params.arff.attributesList[classIndex].name) {
+            outputNomAttribValue[params.arff.data[dataLineIndex][classIndex].value] =
             1.0;
           }
         }
@@ -224,9 +225,9 @@ class MultilayerPerceptron {
                 if (outputNomAttribValue.containsKey(neuron.name)) {
                   neuron.value = outputNomAttribValue[neuron.name];
                 } else if (neuron.name ==
-                    arff.data[dataLineIndex][classIndex].name) {
+                    params.arff.data[dataLineIndex][classIndex].name) {
                   neuron.value =
-                      double.parse(arff.data[dataLineIndex][classIndex].value);
+                      double.parse(params.arff.data[dataLineIndex][classIndex].value);
                 } else {
                   neuron.value = 0.0;
                 }
