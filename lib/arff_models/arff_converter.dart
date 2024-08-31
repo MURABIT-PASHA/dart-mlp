@@ -76,7 +76,6 @@ class ARFFConverter {
         arffData.add(arffDtList);
       }
     }
-    print(attributesList);
     return ARFF(relation, attributesList, arffData);
   }
 
@@ -130,7 +129,6 @@ class ARFFConverter {
 
       arffData.add(arffDtList);
     }
-    print(attributesList);
     return ARFF(relation, attributesList, arffData);
 
   }
