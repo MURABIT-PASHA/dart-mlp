@@ -18,3 +18,9 @@
 
 ### Usage
 - The `ARFFModelCreationParameter` class provides a parameter set containing ARFF data and a class name. This class can be used with the `compute` function for background processing tasks.
+
+## 0.0.3
+
+### New Features
+- Added `parseFromCSVFile` method to the `ARFFConverter` class. That provides users to:
+  - Parse CSV files and automatically convert them into ARFF format.

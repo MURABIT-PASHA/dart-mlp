@@ -76,7 +76,62 @@ class ARFFConverter {
         arffData.add(arffDtList);
       }
     }
-
+    print(attributesList);
     return ARFF(relation, attributesList, arffData);
+  }
+
+  Future<ARFF> parseCSVFile({required String fileName}) async {
+    final fileContent = await rootBundle.loadString(fileName);
+    final lines = fileContent.split('\n');
+    String relation = fileName;
+    List<ARFFAttributes> attributesList = [];
+    List<List<ARFFData>> arffData = [];
+
+    if (lines.isEmpty) return ARFF(relation, attributesList, arffData);
+
+    List<String> header = lines.first.split(',').map((h) => h.trim().replaceAll('"', '')).toList();
+    lines.removeAt(0);
+
+    List<Set<String>> nominalValues = List.generate(header.length, (_) => <String>{});
+    List<bool> isNumericColumn = List.generate(header.length, (_) => true);
+
+    for (var line in lines) {
+      line = line.trim();
+      if (line.isEmpty) continue;
+
+      final values = line.split(',').map((v) => v.trim().replaceAll('"', '')).toList();
+
+      for (int i = 0; i < values.length; i++) {
+        final value = values[i];
+
+        if (double.tryParse(value) == null) {
+          isNumericColumn[i] = false;
+          nominalValues[i].add(value);
+        }
+      }
+    }
+
+    for (int i = 0; i < header.length; i++) {
+      final name = header[i];
+
+      if (isNumericColumn[i]) {
+        attributesList.add(ARFFAttributes(name, 'numeric'));
+      } else {
+        attributesList.add(ARFFAttributes(name, 'nominal', nominalValues[i].toList()));
+      }
+    }
+    for (var line in lines) {
+      final values = line.split(',').map((v) => v.trim().replaceAll('"', '')).toList();
+      List<ARFFData> arffDtList = [];
+      for (int index = 0; index < attributesList.length; index++) {
+        ARFFData arffDt = ARFFData(name: attributesList[index].name, value: values[index]);
+        arffDtList.add(arffDt);
+      }
+
+      arffData.add(arffDtList);
+    }
+    print(attributesList);
+    return ARFF(relation, attributesList, arffData);
+
   }
 }

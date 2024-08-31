@@ -27,7 +27,8 @@ Here is a simple example to demonstrate how to use the mlp package to create a n
 void main() async{
   ARFFConverter arffConverter = ARFFConverter();
   ARFF arff = await arffConverter.parseARFFFile(fileName: 'assets/penguins.arff');
-
+  // Or csv file like that one:
+  // ARFF arff = await arffConverter.parseARFFFile(fileName: 'assets/penguins.csv');
   MultilayerPerceptron mlp = MultilayerPerceptron(
     inputLayer: Layer.input(
         neurons: arff.getInputLayerNeurons(className: 'species')),
