@@ -24,3 +24,8 @@
 ### New Features
 - Added `parseFromCSVFile` method to the `ARFFConverter` class. That provides users to:
   - Parse CSV files and automatically convert them into ARFF format.
+
+## 0.0.4
+
+### UPDATE
+- Removed unnecessary imports

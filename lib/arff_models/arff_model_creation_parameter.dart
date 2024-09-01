@@ -1,7 +1,6 @@
 import 'package:mlp/arff_models/arff.dart';
 
-class ARFFModelCreationParameter{
-
+class ARFFModelCreationParameter {
   /// ARFF data object.
   final ARFF arff;
 

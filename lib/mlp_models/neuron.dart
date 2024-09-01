@@ -1,4 +1,3 @@
-
 import 'edge.dart';
 
 /// The `Neuron` class represents a single neuron in a neural network,

@@ -3,7 +3,6 @@ import 'arff.dart';
 import 'arff_attributes.dart';
 import 'arff_data.dart';
 
-
 /// The `ARFFConverter` class is responsible for parsing ARFF (Attribute-Relation File Format)
 /// files and converting them into a structured `ARFF` object. This class reads ARFF files,
 /// extracts the relation, attributes, and data, and organizes them into appropriate structures.
@@ -22,7 +21,6 @@ import 'arff_data.dart';
 /// of the ARFF file format.
 ///
 class ARFFConverter {
-
   Future<ARFF> parseARFFFile({required String fileName}) async {
     final fileContent = await rootBundle.loadString(fileName);
     final lines = fileContent.split('\n');
@@ -53,10 +51,10 @@ class ARFFConverter {
               .substring(1, type.length - 1)
               .split(',')
               .map((v) => v
-              .trim()
-              .replaceAll('\'', '')
-              .replaceAll('}', '')
-              .replaceAll(']', ''))
+                  .trim()
+                  .replaceAll('\'', '')
+                  .replaceAll('}', '')
+                  .replaceAll(']', ''))
               .toList();
           attributesList.add(ARFFAttributes(name, 'nominal', values));
         } else {
@@ -66,11 +64,11 @@ class ARFFConverter {
         dataSection = true;
       } else if (dataSection) {
         List<dynamic> values =
-        line.split(',').map((v) => v.trim().replaceAll("\'", "")).toList();
+            line.split(',').map((v) => v.trim().replaceAll("\'", "")).toList();
         List<ARFFData> arffDtList = [];
         for (int index = 0; index < attributesList.length; index++) {
           ARFFData arffDt =
-          ARFFData(name: attributesList[index].name, value: values[index]);
+              ARFFData(name: attributesList[index].name, value: values[index]);
           arffDtList.add(arffDt);
         }
         arffData.add(arffDtList);
@@ -88,17 +86,22 @@ class ARFFConverter {
 
     if (lines.isEmpty) return ARFF(relation, attributesList, arffData);
 
-    List<String> header = lines.first.split(',').map((h) => h.trim().replaceAll('"', '')).toList();
+    List<String> header = lines.first
+        .split(',')
+        .map((h) => h.trim().replaceAll('"', ''))
+        .toList();
     lines.removeAt(0);
 
-    List<Set<String>> nominalValues = List.generate(header.length, (_) => <String>{});
+    List<Set<String>> nominalValues =
+        List.generate(header.length, (_) => <String>{});
     List<bool> isNumericColumn = List.generate(header.length, (_) => true);
 
     for (var line in lines) {
       line = line.trim();
       if (line.isEmpty) continue;
 
-      final values = line.split(',').map((v) => v.trim().replaceAll('"', '')).toList();
+      final values =
+          line.split(',').map((v) => v.trim().replaceAll('"', '')).toList();
 
       for (int i = 0; i < values.length; i++) {
         final value = values[i];
@@ -116,20 +119,22 @@ class ARFFConverter {
       if (isNumericColumn[i]) {
         attributesList.add(ARFFAttributes(name, 'numeric'));
       } else {
-        attributesList.add(ARFFAttributes(name, 'nominal', nominalValues[i].toList()));
+        attributesList
+            .add(ARFFAttributes(name, 'nominal', nominalValues[i].toList()));
       }
     }
     for (var line in lines) {
-      final values = line.split(',').map((v) => v.trim().replaceAll('"', '')).toList();
+      final values =
+          line.split(',').map((v) => v.trim().replaceAll('"', '')).toList();
       List<ARFFData> arffDtList = [];
       for (int index = 0; index < attributesList.length; index++) {
-        ARFFData arffDt = ARFFData(name: attributesList[index].name, value: values[index]);
+        ARFFData arffDt =
+            ARFFData(name: attributesList[index].name, value: values[index]);
         arffDtList.add(arffDt);
       }
 
       arffData.add(arffDtList);
     }
     return ARFF(relation, attributesList, arffData);
-
   }
 }

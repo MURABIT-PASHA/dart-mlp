@@ -17,7 +17,7 @@ To start using the `mlp` package, add it to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  mlp: ^0.0.3
+  mlp: ^0.0.4
 ```
 Then, run `pub get` to install the package.
 

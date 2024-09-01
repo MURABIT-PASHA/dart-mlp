@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mlp/arff_models/arff.dart';
-import 'package:mlp/arff_models/arff_attributes.dart';
-import 'package:mlp/arff_models/arff_converter.dart';
-import 'package:mlp/arff_models/arff_data.dart';
-import 'package:mlp/arff_models/arff_model_creation_parameter.dart';
 import 'package:mlp/mlp.dart';
-import 'package:mlp/mlp_models/layer.dart';
-import 'package:mlp/mlp_models/model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -71,7 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             neurons: arff!
                                 .getOutputLayerNeurons(className: 'species')),
                       );
-                      model = mlp!.createModelFromArff(ARFFModelCreationParameter(arff: arff!, className: 'species'));
+                      model = mlp!.createModelFromArff(
+                          ARFFModelCreationParameter(
+                              arff: arff!, className: 'species'));
 
                       outputAttributeIndex = arff!.attributesList
                           .indexWhere((test) => test.name == 'species');
@@ -175,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   builder: (BuildContext context) {
                                     return Dialog(
                                       child: Container(
-                                        padding: const EdgeInsets.all(20),
+                                          padding: const EdgeInsets.all(20),
                                           height: 200,
                                           width:
                                               MediaQuery.sizeOf(context).width -
