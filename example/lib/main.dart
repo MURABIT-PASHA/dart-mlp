@@ -64,9 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             neurons: arff!
                                 .getOutputLayerNeurons(className: 'species')),
                       );
-                      model = mlp!.createModelFromArff(
-                          ARFFModelCreationParameter(
-                              arff: arff!, className: 'species'));
+                      model = await mlp!.createModel(
+                        ARFFModelCreationParameter(
+                            arff: arff!, className: 'species'),
+                      );
 
                       outputAttributeIndex = arff!.attributesList
                           .indexWhere((test) => test.name == 'species');

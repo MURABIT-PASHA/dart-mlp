@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:mlp/arff_models/arff_model_creation_parameter.dart';
 import 'package:mlp/mlp_models/model.dart';
 
@@ -146,7 +147,7 @@ class MultilayerPerceptron {
   }
 
   /// This function creates a model from given [ARFF] file and class name
-  Model createModelFromArff(ARFFModelCreationParameter params) {
+  Model _createModelFromArff(ARFFModelCreationParameter params) {
     List<Layer> mlp = connectLayers(layers: createLayers());
     List<List<ARFFData>> data =
         params.arff.data.map((list) => List<ARFFData>.from(list)).toList();
@@ -295,6 +296,10 @@ class MultilayerPerceptron {
       } while (data.isNotEmpty);
     }
     return Model(layers: mlp);
+  }
+
+  Future<Model> createModel(ARFFModelCreationParameter params) async {
+    return await compute(_createModelFromArff, params);
   }
 
   Map<String, double> getPrediction(

@@ -8,4 +8,8 @@ class Model {
   final List<Layer> layers;
 
   Model({required this.layers});
+
+  Future<bool> save() async {
+    return false;
+  }
 }

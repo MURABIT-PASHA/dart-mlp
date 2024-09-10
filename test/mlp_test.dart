@@ -43,7 +43,7 @@ void main() async {
   );
   // 'Gentoo','Biscoe',42.8,14.2,209,4700,'female'
   // 'Adelie','Biscoe',37.8,20.0,190,4250,'male'
-  var model = mlp.createModelFromArff(
+  var model = await mlp.createModel(
       ARFFModelCreationParameter(arff: arff, className: 'species'));
   var prediction = mlp.getPrediction(arff: arff, model: model, data: [
     ARFFData(name: 'island', value: 'Biscoe'),
