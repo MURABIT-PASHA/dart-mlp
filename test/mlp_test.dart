@@ -5,7 +5,8 @@ import 'package:mlp/mlp.dart';
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   ARFFConverter arffConverter = ARFFConverter();
-  // ARFF arff = await arffConverter.parseARFFFile(fileName: 'assets/penguins.arff');
+  ARFF arff =
+      await arffConverter.parseARFFFile(fileName: 'assets/penguins.arff');
   // ARFF arff2 = await arffConverter.parseCSVFile(fileName: 'assets/penguins.csv');
   // MultilayerPerceptron mlp = MultilayerPerceptron(
   //   inputLayer: Layer.input(
@@ -34,8 +35,10 @@ void main() async {
   // ]);
   // print(prediction);
   // print(prediction2);
-  ARFF arff = await arffConverter.parseCSVFile(fileName: 'assets/penguins.csv');
+  // ARFF arff = await arffConverter.parseCSVFile(fileName: 'assets/penguins.csv');
   MultilayerPerceptron mlp = MultilayerPerceptron(
+    hiddenLayerCount: 5,
+    hiddenLayerNeuronCount: 10,
     inputLayer:
         Layer.input(neurons: arff.getInputLayerNeurons(className: 'species')),
     outputLayer:
@@ -43,8 +46,10 @@ void main() async {
   );
   // 'Gentoo','Biscoe',42.8,14.2,209,4700,'female'
   // 'Adelie','Biscoe',37.8,20.0,190,4250,'male'
-  var model = await mlp.createModel(
-      ARFFModelCreationParameter(arff: arff, className: 'species'));
+  // var model = await mlp.createModel(
+  //     ARFFModelCreationParameter(arff: arff, className: 'species'));
+  // model.save();
+  var model = await Model.readFrom(fileName: 'relation.model');
   var prediction = mlp.getPrediction(arff: arff, model: model, data: [
     ARFFData(name: 'island', value: 'Biscoe'),
     ARFFData(name: 'flipper_length_mm', value: '209'),
