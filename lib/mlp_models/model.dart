@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:mlp/enums.dart';
 import 'package:mlp/mlp_models/layer.dart';
@@ -16,10 +15,9 @@ class Model {
 
   Model({required this.layers});
 
-  /// The `save()` method is used to serialize the current model's layers and their contents into a JSON format and save it to a file.
-  /// Each layer is represented in the JSON format with its layer type, the number of neurons, neuron names, values, edge weights (input and output), and other attributes.
-  /// Finally, the JSON string is written to a file, and if the operation is successful, `true` is returned.
-  Future<bool> save() async {
+  ///The `toJson()` method serializes the model's layers and their contents into a JSON format.
+  ///Each layer's type, number of neurons, neuron names, values, and edge weights are included in the JSON string, which is returned when the operation is complete.
+  Future<String> toJson() async {
     Map<String, Map<String, String>> layerMap = {};
     int index = 0;
     for (Layer layer in layers) {
@@ -46,20 +44,15 @@ class Model {
       index += 1;
     }
     String jsonString = jsonEncode(layerMap);
-    final file = File('relation.model');
-    await file.writeAsString(jsonString);
-    return true;
+    return jsonString;
   }
 
-  /// The `readFrom()` method reads a file specified by its filename and reconstructs the model from it.
-  /// The file contains information about the layers and their attributes in JSON format. The function reads this JSON data and creates input, hidden, and output layers accordingly.
-  /// Then, it sets up the connections (edge weights) between neurons in each layer. If the model is successfully constructed, it returns the created model object; otherwise, it throws an exception.
-  static Future<Model> readFrom({required String fileName}) async {
+  /// The `fromJson()` method takes a JSON string as input and reconstructs the model.
+  /// It reads the JSON data, creates the input, hidden, and output layers, and establishes the connections (edges) between neurons.
+  /// It returns the fully constructed model if successful; otherwise, it throws an exception.
+  static Future<Model> fromJson({required String jsonString}) async {
     try {
-      final file = File(fileName);
-      String jsonString = await file.readAsString();
       Map<String, dynamic> layerMap = jsonDecode(jsonString);
-
       Layer? inputLayer;
       List<Layer> hiddenLayers = [];
       Layer? outputLayer;
@@ -211,7 +204,7 @@ class Model {
       tmpLayers.add(outputLayer!);
       return Model(layers: tmpLayers);
     } catch (e) {
-      throw Exception("Can't read from file");
+      throw Exception("Can't read from string");
     }
   }
 }

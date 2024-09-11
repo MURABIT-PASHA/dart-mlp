@@ -1,6 +1,6 @@
 name: mlp
 description: "Multilayer perceptron package that allows to create machine learning model"
-version: 0.0.4
+version: 1.0.0
 homepage: https://github.com/MURABIT-PASHA/dart-mlp
 
 environment:

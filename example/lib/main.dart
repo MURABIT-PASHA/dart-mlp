@@ -57,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         fileName: 'assets/penguins.arff');
                     if (arff != null) {
                       mlp = MultilayerPerceptron(
+                        hiddenLayerNeuronCount: 10,
+                        hiddenLayerCount: 5,
                         inputLayer: Layer.input(
                             neurons: arff!
                                 .getInputLayerNeurons(className: 'species')),
@@ -68,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ARFFModelCreationParameter(
                             arff: arff!, className: 'species'),
                       );
+                      // await model?.save();
 
                       outputAttributeIndex = arff!.attributesList
                           .indexWhere((test) => test.name == 'species');
