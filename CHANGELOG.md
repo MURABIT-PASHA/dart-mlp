@@ -33,10 +33,10 @@
 ## 1.0.0
 
 ### New Features
-- **`save()` Method**:
+- **`toJson()` Method**:
   - Added a method to serialize the model's layers, including neurons and their connections, into a JSON format and save it to a file. This allows for the model's state to be saved and restored later.
 
-- **`readFrom()` Method**:
+- **`fromJson()` Method**:
   - Added a method to read a JSON file and reconstruct the model from the saved data. This method dynamically creates input, hidden, and output layers, along with their respective neurons and connections, to restore the model's state.
 
 ### Changes
